@@ -3,6 +3,7 @@ interface Task {
   date: number;
   description: string;
   priority: "haute" | "faible" | "moyenne";
+  id :number
   createTask: () => void;
   deleteTask: () => void;
   filtersTask: () => void;

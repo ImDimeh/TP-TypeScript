@@ -31,6 +31,12 @@ class TaskManager {
   filterTasksByPriority(priority: "haute" | "faible" | "moyenne") {
     return this.tasks.filter((task) => task.priority === priority);
   }
+  getAllTasks(): Task[] {
+    const tasksString = localStorage.getItem("tasks");
+    return tasksString ? JSON.parse(tasksString) : [];
+  }
 }
+
+
 
 export default TaskManager;

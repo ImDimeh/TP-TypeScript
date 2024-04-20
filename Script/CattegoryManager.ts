@@ -18,11 +18,32 @@ class CategoryManager {
     this.saveCategories();
   }
 
+  // Méthode pour mettre à jour une catégorie
+  // Méthode pour mettre à jour une catégorie
+  updateCategory(id: string, updatedCategory: Category) {
+    // Load categories from localStorage
+    const categoriesString = localStorage.getItem("categories");
+    let categories = categoriesString ? JSON.parse(categoriesString) : [];
+
+    const index = categories.findIndex((category) => category.id === id);
+    if (index !== -1) {
+      // Preserve the id of the existing category
+      categories[index] = { ...updatedCategory, id };
+
+      // Save categories back to localStorage
+      localStorage.setItem("categories", JSON.stringify(categories));
+    } else {
+      throw new Error(`Category with id ${id} not found`);
+    }
+  }
   // Méthode pour supprimer une catégorie
-  deleteCategory(index: number) {
-    if (index >= 0 && index < this.categories.length) {
+  deleteCategory(id: string) {
+    const index = this.categories.findIndex((category) => category.id === id);
+    if (index !== -1) {
       this.categories.splice(index, 1);
       this.saveCategories();
+    } else {
+      throw new Error(`Category with id ${id} not found`);
     }
   }
 }
