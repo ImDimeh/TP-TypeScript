@@ -3,4 +3,9 @@ interface Task {
   date: number;
   description: string;
   priority: "haute" | "faible" | "moyenne";
+  createTask: () => void;
+  deleteTask: () => void;
+  filtersTask: () => void;
 }
+
+export default Task;
