@@ -20,12 +20,14 @@ class CategoryManager {
 
   // Méthode pour mettre à jour une catégorie
   // Méthode pour mettre à jour une catégorie
-  updateCategory(id: string, updatedCategory: Category) {
+  updateCategory(id: number, updatedCategory: Category) {
     // Load categories from localStorage
     const categoriesString = localStorage.getItem("categories");
     let categories = categoriesString ? JSON.parse(categoriesString) : [];
 
-    const index = categories.findIndex((category) => category.id === id);
+    const index = categories.findIndex(
+      (category: Category) => category.id === id
+    );
     if (index !== -1) {
       // Preserve the id of the existing category
       categories[index] = { ...updatedCategory, id };
@@ -37,14 +39,12 @@ class CategoryManager {
     }
   }
   // Méthode pour supprimer une catégorie
-  deleteCategory(id: string) {
-    const index = this.categories.findIndex((category) => category.id === id);
-    if (index !== -1) {
-      this.categories.splice(index, 1);
-      this.saveCategories();
-    } else {
-      throw new Error(`Category with id ${id} not found`);
-    }
+  deleteCategory(id: number) {
+    // Utilisation de map pour créer une nouvelle liste sans l'élément à supprimer
+    this.categories = this.categories.filter(
+      (category: Category) => category.id !== id
+    );
+    this.saveCategories();
   }
 }
 

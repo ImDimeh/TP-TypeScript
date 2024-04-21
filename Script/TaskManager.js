@@ -23,7 +23,10 @@ var TaskManager = /** @class */ (function () {
     TaskManager.prototype.filterTasksByPriority = function (priority) {
         return this.tasks.filter(function (task) { return task.priority === priority; });
     };
+    TaskManager.prototype.getAllTasks = function () {
+        var tasksString = localStorage.getItem("tasks");
+        return tasksString ? JSON.parse(tasksString) : [];
+    };
     return TaskManager;
 }());
-var T;
 export default TaskManager;

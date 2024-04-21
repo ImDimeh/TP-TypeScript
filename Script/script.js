@@ -1,3 +1,4 @@
+import TaskManager from "./TaskManager";
 // Sélection des éléments du formulaire
 var taskForm = document.getElementById("taskForm");
 var taskTitleInput = document.getElementById("taskTitle");
@@ -5,6 +6,8 @@ var taskDescriptionTextarea = document.getElementById("taskDescription");
 var taskDueDateInput = document.getElementById("taskDueDate");
 var taskPrioritySelect = document.getElementById("taskPriority");
 var addButton = document.getElementById("Addtache");
+// Création d'une instance de TaskManager
+var taskManager = new TaskManager();
 // Ajout d'un écouteur d'événement sur la soumission du formulaire
 taskForm.addEventListener("submit", function (event) {
     event.preventDefault(); // Empêche la soumission par défaut du formulaire
@@ -13,17 +16,20 @@ taskForm.addEventListener("submit", function (event) {
     var taskDescription = taskDescriptionTextarea.value;
     var taskDueDate = taskDueDateInput.value;
     var taskPriority = taskPrioritySelect.value;
-    // Affichage des valeurs dans la console
-    console.log("Titre de la tâche :", taskTitle);
-    console.log("Description de la tâche :", taskDescription);
-    console.log("Date d'échéance de la tâche :", taskDueDate);
-    console.log("Priorité de la tâche :", taskPriority);
     // Création d'une nouvelle tâche
-    var task = new Task(taskTitle, taskDescription, taskDueDate, taskPriority);
-    // Ajout de la tâche à la liste des tâches
-    task.addTask(task);
+    var newTask = {
+        titre: taskTitle,
+        description: taskDescription,
+        date: Date.now(), // Exemple de date actuelle, à remplacer par la valeur réelle
+        priority: taskPriority, // Conversion de string en type priorité
+        id: 0, // Remplacer par un vrai ID
+        createTask: function () { }, // Méthode bidon, à remplacer si nécessaire
+        deleteTask: function () { }, // Méthode bidon, à remplacer si nécessaire
+        filtersTask: function () { } // Méthode bidon, à remplacer si nécessaire
+    };
+    // Ajout de la tâche à la liste des tâches dans TaskManager
+    taskManager.createTask(newTask);
     // Réinitialisation du formulaire
     taskForm.reset();
 });
 console.log('test ts');
-export {};

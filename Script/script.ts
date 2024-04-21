@@ -13,6 +13,9 @@ const taskDueDateInput = document.getElementById("taskDueDate") as HTMLInputElem
 const taskPrioritySelect = document.getElementById("taskPriority") as HTMLSelectElement;
 const addButton = document.getElementById("Addtache") as HTMLButtonElement;
 
+// Création d'une instance de TaskManager
+const taskManager = new TaskManager();
+
 // Ajout d'un écouteur d'événement sur la soumission du formulaire
 taskForm.addEventListener("submit", (event) => {
     event.preventDefault(); // Empêche la soumission par défaut du formulaire
@@ -23,22 +26,24 @@ taskForm.addEventListener("submit", (event) => {
     const taskDueDate = taskDueDateInput.value;
     const taskPriority = taskPrioritySelect.value;
 
-    // Affichage des valeurs dans la console
-    console.log("Titre de la tâche :", taskTitle);
-    console.log("Description de la tâche :", taskDescription);
-    console.log("Date d'échéance de la tâche :", taskDueDate);
-    console.log("Priorité de la tâche :", taskPriority);
-
     // Création d'une nouvelle tâche
-    const task = new Task(taskTitle, taskDescription, taskDueDate, taskPriority);
+    const newTask: Task = {
+        titre: taskTitle,
+        description: taskDescription,
+        date: Date.now(), // Exemple de date actuelle, à remplacer par la valeur réelle
+        priority: taskPriority as "haute" | "faible" | "moyenne", // Conversion de string en type priorité
+        id: 0, // Remplacer par un vrai ID
+        createTask: () => {}, // Méthode bidon, à remplacer si nécessaire
+        deleteTask: () => {}, // Méthode bidon, à remplacer si nécessaire
+        filtersTask: () => {} // Méthode bidon, à remplacer si nécessaire
+    };
 
-    // Ajout de la tâche à la liste des tâches
-    taskManager.addTask(task);
+    // Ajout de la tâche à la liste des tâches dans TaskManager
+    taskManager.createTask(newTask);
 
     // Réinitialisation du formulaire
     taskForm.reset();
-  }
-);
+});
 
 
 
