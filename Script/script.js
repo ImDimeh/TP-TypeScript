@@ -32,24 +32,38 @@ taskForm.addEventListener("submit", function (event) {
     // Réinitialisation du formulaire
     taskForm.reset();
 });
-window.addEventListener("load", function () {
-    console.log("task chargé");
-    var tasks = taskManager.getAllTasks();
+// filtre par priorité 
+// Sélection de l'élément select
+var filterPrioritySelect = document.getElementById("filterPriority");
+// Ajout d'un écouteur d'événement sur le changement de valeur
+filterPrioritySelect.addEventListener("change", function () {
+    // Récupération de la valeur sélectionnée
+    var selectedValue = filterPrioritySelect.value;
+    ;
+    // Vérification si la valeur sélectionnée n'est pas null
+    if (selectedValue !== null) {
+        // Filtrage des tâches par priorité
+        var filteredTasks = taskManager.filterTasksByPriority(selectedValue);
+        displayTasks(filteredTasks);
+    }
+});
+function displayTasks(tasks) {
+    console.log("Tasks chargées");
     var tasksContainer = document.getElementById("tasks");
     if (tasksContainer) {
         tasks.forEach(function (task) {
             var taskDiv = document.createElement("div");
             if (task.priority === "haute") {
-                taskDiv.classList.add("task", 'task high');
+                taskDiv.classList.add("task", "high");
             }
             else if (task.priority === "moyenne") {
-                taskDiv.classList.add("task", "task medium");
+                taskDiv.classList.add("task", "medium");
             }
             else if (task.priority === "faible") {
-                taskDiv.classList.add("task", "task low");
+                taskDiv.classList.add("task", "low");
             }
             var taskTitle = document.createElement("h3");
-            taskTitle.textContent = "".concat(task.titre, " <span>\u2013 Priorit\u00E9 ").concat(task.priority.charAt(0).toUpperCase() + task.priority.slice(1), "</span>");
+            taskTitle.innerHTML = "".concat(task.titre, " <span>\u2013 Priorit\u00E9 ").concat(task.priority.charAt(0).toUpperCase() + task.priority.slice(1), "</span>");
             var taskDate = document.createElement("p");
             taskDate.textContent = "Date d'\u00E9ch\u00E9ance: ".concat(task.date);
             var taskDescription = document.createElement("p");
@@ -57,8 +71,10 @@ window.addEventListener("load", function () {
             var deleteButton = document.createElement("button");
             deleteButton.textContent = "Supprimer";
             deleteButton.addEventListener("click", function () {
-                taskManager.deleteTask(task.id);
+                // Supprimer la tâche du DOM
                 tasksContainer.removeChild(taskDiv);
+                // Supprimer la tâche du gestionnaire de tâches
+                taskManager.deleteTask(task.id);
             });
             var editButton = document.createElement("button");
             editButton.textContent = "Modifier";
@@ -71,5 +87,10 @@ window.addEventListener("load", function () {
             tasksContainer.appendChild(taskDiv);
         });
     }
+}
+// Appel de la fonction avec les tâches récupérées
+window.addEventListener("load", function () {
+    var tasks = taskManager.getAllTasks();
+    displayTasks(tasks);
 });
 console.log('test ts');

@@ -1,7 +1,7 @@
-import CategoryManager from "./CattegoryManager"
-import Category from "./Categorie"
 import Task from "./Task"
 import TaskManager from "./TaskManager";
+import CategoryManager from "./CattegoryManager"
+import Category from "./Categorie"
 
 
 
@@ -44,30 +44,45 @@ taskForm.addEventListener("submit", (event) => {
     // Réinitialisation du formulaire
     taskForm.reset();
 });
+// filtre par priorité 
 
-window.addEventListener("load", () => {
-  console.log("task chargé")
-  const tasks = taskManager.getAllTasks();
+// Sélection de l'élément select
+const filterPrioritySelect = document.getElementById(
+  "filterPriority"
+) as HTMLSelectElement;
+
+// Ajout d'un écouteur d'événement sur le changement de valeur
+filterPrioritySelect.addEventListener("change", function() {
+    // Récupération de la valeur sélectionnée
+    const selectedValue = filterPrioritySelect.value; ;
+    
+    // Vérification si la valeur sélectionnée n'est pas null
+    if (selectedValue !== null) {
+        // Filtrage des tâches par priorité
+        const filteredTasks = taskManager.filterTasksByPriority(selectedValue as "haute" | "faible" | "moyenne");
+        displayTasks(filteredTasks);
+    }
+});
+
+
+
+function displayTasks(tasks: Task[]) {
+  console.log("Tasks chargées");
   const tasksContainer = document.getElementById("tasks");
 
   if (tasksContainer) {
     tasks.forEach((task) => {
       const taskDiv = document.createElement("div");
       if (task.priority === "haute") {
-        taskDiv.classList.add("task", 'task high');
-
+        taskDiv.classList.add("task", "high");
       } else if (task.priority === "moyenne") {
-        taskDiv.classList.add("task", "task medium");
-
-      } else if (task.priority === "faible") { 
-        taskDiv.classList.add("task", "task low");
-
+        taskDiv.classList.add("task", "medium");
+      } else if (task.priority === "faible") {
+        taskDiv.classList.add("task", "low");
       }
 
-      
-
       const taskTitle = document.createElement("h3");
-      taskTitle.textContent = `${task.titre} <span>– Priorité ${
+      taskTitle.innerHTML = `${task.titre} <span>– Priorité ${
         task.priority.charAt(0).toUpperCase() + task.priority.slice(1)
       }</span>`;
 
@@ -79,16 +94,16 @@ window.addEventListener("load", () => {
 
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "Supprimer";
-      deleteButton.addEventListener("click", () => { 
-        taskManager.deleteTask(task.id);
+      deleteButton.addEventListener("click", () => {
+        // Supprimer la tâche du DOM
         tasksContainer.removeChild(taskDiv);
-      })
+        // Supprimer la tâche du gestionnaire de tâches
+        taskManager.deleteTask(task.id);
+      });
 
-     
       const editButton = document.createElement("button");
       editButton.textContent = "Modifier";
       editButton.classList.add("edit-btn");
-      
 
       taskDiv.appendChild(taskTitle);
       taskDiv.appendChild(taskDate);
@@ -99,8 +114,13 @@ window.addEventListener("load", () => {
       tasksContainer.appendChild(taskDiv);
     });
   }
-});
+}
 
+// Appel de la fonction avec les tâches récupérées
+window.addEventListener("load", () => {
+  const tasks = taskManager.getAllTasks();
+  displayTasks(tasks);
+});
 
 
 console.log('test ts')
