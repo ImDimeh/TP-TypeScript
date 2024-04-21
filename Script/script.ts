@@ -45,6 +45,57 @@ taskForm.addEventListener("submit", (event) => {
     taskForm.reset();
 });
 
+window.addEventListener("load", () => {
+  console.log("task chargé")
+  const tasks = taskManager.getAllTasks();
+  const tasksContainer = document.getElementById("tasks");
+
+  if (tasksContainer) {
+    tasks.forEach((task) => {
+      const taskDiv = document.createElement("div");
+      if (task.priority === "haute") {
+        taskDiv.classList.add("task", 'task high');
+
+      } else if (task.priority === "moyenne") {
+        taskDiv.classList.add("task", "task medium");
+
+      } else if (task.priority === "faible") { 
+        taskDiv.classList.add("task", "task low");
+
+      }
+
+      
+
+      const taskTitle = document.createElement("h3");
+      taskTitle.textContent = `${task.titre} <span>– Priorité ${
+        task.priority.charAt(0).toUpperCase() + task.priority.slice(1)
+      }</span>`;
+
+      const taskDate = document.createElement("p");
+      taskDate.textContent = `Date d'échéance: ${task.date}`;
+
+      const taskDescription = document.createElement("p");
+      taskDescription.textContent = task.description;
+
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Supprimer";
+     
+      const editButton = document.createElement("button");
+      editButton.textContent = "Modifier";
+      editButton.classList.add("edit-btn");
+      
+
+      taskDiv.appendChild(taskTitle);
+      taskDiv.appendChild(taskDate);
+      taskDiv.appendChild(taskDescription);
+      taskDiv.appendChild(deleteButton);
+      taskDiv.appendChild(editButton);
+
+      tasksContainer.appendChild(taskDiv);
+    });
+  }
+});
+
 
 
 console.log('test ts')

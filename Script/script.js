@@ -32,4 +32,40 @@ taskForm.addEventListener("submit", function (event) {
     // Réinitialisation du formulaire
     taskForm.reset();
 });
+window.addEventListener("load", function () {
+    console.log("task chargé");
+    var tasks = taskManager.getAllTasks();
+    var tasksContainer = document.getElementById("tasks");
+    if (tasksContainer) {
+        tasks.forEach(function (task) {
+            var taskDiv = document.createElement("div");
+            if (task.priority === "haute") {
+                taskDiv.classList.add("task", 'task high');
+            }
+            else if (task.priority === "moyenne") {
+                taskDiv.classList.add("task", "task medium");
+            }
+            else if (task.priority === "faible") {
+                taskDiv.classList.add("task", "task low");
+            }
+            var taskTitle = document.createElement("h3");
+            taskTitle.textContent = "".concat(task.titre, " <span>\u2013 Priorit\u00E9 ").concat(task.priority.charAt(0).toUpperCase() + task.priority.slice(1), "</span>");
+            var taskDate = document.createElement("p");
+            taskDate.textContent = "Date d'\u00E9ch\u00E9ance: ".concat(task.date);
+            var taskDescription = document.createElement("p");
+            taskDescription.textContent = task.description;
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "Supprimer";
+            var editButton = document.createElement("button");
+            editButton.textContent = "Modifier";
+            editButton.classList.add("edit-btn");
+            taskDiv.appendChild(taskTitle);
+            taskDiv.appendChild(taskDate);
+            taskDiv.appendChild(taskDescription);
+            taskDiv.appendChild(deleteButton);
+            taskDiv.appendChild(editButton);
+            tasksContainer.appendChild(taskDiv);
+        });
+    }
+});
 console.log('test ts');
