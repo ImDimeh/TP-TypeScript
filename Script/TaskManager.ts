@@ -20,11 +20,10 @@ class TaskManager {
   }
 
   // Méthode pour supprimer une tâche
-  deleteTask(index: number) {
-    if (index >= 0 && index < this.tasks.length) {
-      this.tasks.splice(index, 1);
-      this.saveTasks();
-    }
+  deleteTask(id: number) {
+    // Utilisation de map pour créer une nouvelle liste sans la tâche à supprimer
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+    this.saveTasks();
   }
 
   // Méthode pour filtrer les tâches par priorité

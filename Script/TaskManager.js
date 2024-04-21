@@ -13,11 +13,10 @@ var TaskManager = /** @class */ (function () {
         this.saveTasks();
     };
     // Méthode pour supprimer une tâche
-    TaskManager.prototype.deleteTask = function (index) {
-        if (index >= 0 && index < this.tasks.length) {
-            this.tasks.splice(index, 1);
-            this.saveTasks();
-        }
+    TaskManager.prototype.deleteTask = function (id) {
+        // Utilisation de map pour créer une nouvelle liste sans la tâche à supprimer
+        this.tasks = this.tasks.filter(function (task) { return task.id !== id; });
+        this.saveTasks();
     };
     // Méthode pour filtrer les tâches par priorité
     TaskManager.prototype.filterTasksByPriority = function (priority) {

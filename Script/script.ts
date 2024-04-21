@@ -79,6 +79,11 @@ window.addEventListener("load", () => {
 
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "Supprimer";
+      deleteButton.addEventListener("click", () => { 
+        taskManager.deleteTask(task.id);
+        tasksContainer.removeChild(taskDiv);
+      })
+
      
       const editButton = document.createElement("button");
       editButton.textContent = "Modifier";
